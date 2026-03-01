@@ -3,23 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorry Barsha Bauwa ❤️</title>
-    <!-- Importing Romantic Fonts -->
+    <title>For Barsha ❤️</title>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
-    <!-- Import EmailJS Library -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     
     <style>
-        /* --- CSS STYLING --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            background: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -27,16 +21,60 @@
             overflow: hidden;
         }
 
+        /* Pink Overlay */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 192, 203, 0.4);
+            z-index: 0;
+        }
+
+        /* --- INTRO SCREEN (REQUIRED FOR MUSIC) --- */
+        #intro-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: opacity 1s ease;
+        }
+
+        .enter-btn {
+            margin-top: 20px;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            background: #ff4b4b;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Pacifico', cursive;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- MAIN CARD --- */
         .card {
             background: rgba(255, 255, 255, 0.95);
             padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             text-align: center;
             max-width: 500px;
             width: 90%;
             z-index: 10;
             position: relative;
+            display: none; /* Hidden initially */
             animation: popIn 1s ease-out;
         }
 
@@ -61,25 +99,9 @@
             60% { transform: scale(1); }
         }
 
-        h1 {
-            font-family: 'Pacifico', cursive;
-            color: #ff4b4b;
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-
-        h2 {
-            color: #555;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        p {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            font-size: 1.1rem;
-        }
+        h1 { font-family: 'Pacifico', cursive; color: #ff4b4b; font-size: 3rem; margin-bottom: 10px; }
+        h2 { color: #555; font-weight: 600; margin-bottom: 20px; }
+        p { color: #666; line-height: 1.6; margin-bottom: 30px; font-size: 1.1rem; }
 
         .btn {
             background-color: #ff4b4b;
@@ -89,34 +111,20 @@
             font-size: 1.2rem;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-family: 'Poppins', sans-serif;
+            transition: transform 0.2s;
             font-weight: 600;
-            outline: none;
         }
 
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(255, 75, 75, 0.3);
-        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255, 75, 75, 0.4); }
 
-        /* Hidden Sections */
-        #message, #unblock-msg {
-            display: none;
-            margin-top: 20px;
-            animation: fadeIn 1s;
-        }
-
+        #message, #unblock-msg { display: none; margin-top: 20px; animation: fadeIn 1s; }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        #message {
-            color: #2ecc71;
-            font-weight: bold;
-            font-size: 1.3rem;
-        }
+        #message { color: #ff4b4b; font-weight: bold; font-size: 1.5rem; }
 
         #unblock-msg {
             background-color: #fff0f0;
@@ -142,15 +150,25 @@
             100% { top: 110vh; transform: translateX(100px) rotate(360deg); opacity: 0; }
         }
 
-        @media (max-width: 600px) {
-            h1 { font-size: 2.5rem; }
-            .card { padding: 30px 20px; }
-        }
+        @media (max-width: 600px) { h1 { font-size: 2.5rem; } }
     </style>
 </head>
 <body>
 
-    <div class="card">
+    <!-- 1. INTRO SCREEN -->
+    <div id="intro-screen">
+        <h1>A message for Barsha</h1>
+        <button class="enter-btn" onclick="enterSite()">Click to Open ❤️</button>
+    </div>
+
+    <!-- 2. AUDIO PLAYER -->
+    <audio id="bgMusic" loop>
+        <!-- Replace src with your song link -->
+        <source src="https://www.pagalworld.com.se/siteuploads/files/sfd103/11840/Na%20Tere%20Ki%20Mere%20He%20Mere%20(Romantic%20Song)%20(PagalWorld.com.se).mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 3. MAIN CARD -->
+    <div class="card" id="mainCard">
         <div class="heart-icon">❤</div>
         <h1>I'm Sorry,<br>Barsha</h1>
         <h2>I messed up.</h2>
@@ -162,7 +180,7 @@
         
         <button class="btn" id="forgiveBtn" onclick="handleForgive()">Forgive Me?</button>
         
-        <div id="message">❤️ I love you, Bauwa! ❤️</div>
+        <div id="message">❤️ I love you, Barsha! ❤️</div>
         
         <div id="unblock-msg">
             🥺<b>Please Unblock Me</b><br>
@@ -171,48 +189,50 @@
         </div>
     </div>
 
-    <div id="hearts-container"></div>
-
     <script>
-        // --- CONFIGURATION FOR EMAILJS ---
-        
-        // TODO: REPLACE 'YOUR_TEMPLATE_ID' WITH YOUR ACTUAL EMAILJS TEMPLATE ID
-        // (e.g., 'template_123456')
-        const TEMPLATE_ID = 'template_50ogjl3'; 
-        
-        // This is your Public Key from EmailJS
+        // --- CONFIGURATION ---
+        const TEMPLATE_ID = 'template_50ogjl3'; // Replace with your EmailJS Template ID
         const PUBLIC_KEY = 'ZTfpvB3QV9K4okyml'; 
 
         // Initialize EmailJS
-        (function() {
-            emailjs.init(PUBLIC_KEY);
-        })();
+        (function() { emailjs.init(PUBLIC_KEY); })();
 
+        // --- 1. HANDLE MUSIC & ENTRY ---
+        function enterSite() {
+            const intro = document.getElementById('intro-screen');
+            const card = document.getElementById('mainCard');
+            const audio = document.getElementById('bgMusic');
+
+            // Play Music
+            audio.volume = 0.6;
+            audio.play().catch(e => console.log("Audio play error:", e));
+
+            // Fade out intro and show card
+            intro.style.opacity = 0;
+            setTimeout(() => {
+                intro.style.display = 'none';
+                card.style.display = 'block';
+            }, 1000);
+        }
+
+        // --- 2. HANDLE FORGIVE BUTTON ---
         function handleForgive() {
             const btn = document.getElementById('forgiveBtn');
             
-            // 1. Change Button State
             btn.innerHTML = "Sending...";
-            btn.style.backgroundColor = "#ccc";
             btn.disabled = true;
 
-            // 2. Define Parameters for the Email
             const templateParams = {
-                to_name: "Abhisha", // The person receiving the email (You)
-                from_name: "Barsha", // The person clicking the button
+                to_name: "Abhisha",
+                from_name: "Barsha",
                 message: "I forgive you! Don't make me angry again."
             };
 
-            // 3. Send Email
-            // Note: 'service_c142mhe' is your Service ID (Gmail/Outlook service)
             emailjs.send('service_c142mhe', TEMPLATE_ID, templateParams)
                 .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
                     showSuccessUI();
                 }, function(error) {
                     console.log('FAILED...', error);
-                    // Even if email fails, show success UI to not ruin the moment
-                    alert("Message sent to heart! (If email failed, check console/Template ID)");
                     showSuccessUI();
                 });
         }
@@ -222,24 +242,15 @@
             const msg = document.getElementById('message');
             const unblock = document.getElementById('unblock-msg');
 
-            btn.style.display = "none"; // Hide button
-            
-            // Show Love Message
+            btn.style.display = "none"; 
             msg.style.display = "block";
-            
-            // Trigger Heart Explosion
             createHeartExplosion();
 
-            // Wait 2 seconds then show the "Unblock" request
-            setTimeout(() => {
-                unblock.style.display = "block";
-            }, 2000);
+            setTimeout(() => { unblock.style.display = "block"; }, 2000);
         }
 
         function createHeartExplosion() {
-            for(let i = 0; i < 50; i++) {
-                createHeart();
-            }
+            for(let i = 0; i < 50; i++) createHeart();
         }
 
         function createHeart() {
@@ -251,7 +262,6 @@
             heart.style.opacity = Math.random();
             heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
             document.body.appendChild(heart);
-
             setTimeout(() => { heart.remove(); }, 5000);
         }
 
@@ -259,4 +269,3 @@
     </script>
 </body>
 </html>
-```
