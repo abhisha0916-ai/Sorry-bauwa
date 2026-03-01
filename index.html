@@ -9,16 +9,21 @@
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        
+html {
+    scroll-behavior: smooth;
+}
         body {
             font-family: 'Poppins', sans-serif;
             background: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
             background-size: cover;
-            height: 300vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+
+    min-height: 120vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    display: block;
+    padding-top: 100px;
         }
 
         /* Pink Overlay */
