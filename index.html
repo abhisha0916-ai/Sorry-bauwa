@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,39 +9,81 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     
     <style>
+        /* --- GLOBAL STYLES --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-html {
-    scroll-behavior: smooth;
-}
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
             background: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
             background-size: cover;
-
-    min-height: 120vh;
-    overflow-x: hidden;
-    overflow-y: auto;
-
-    display: block;
-    padding-top: 100px;
+            min-height: 100vh;
+            color: #333;
+            padding-top: 80px; /* Important for fixed dashboard */
+            overflow-x: hidden;
         }
 
         /* Pink Overlay */
         body::before {
             content: "";
-            position: absolute;
+            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(255, 192, 203, 0.4);
-            z-index: 0;
+            z-index: -1;
+            pointer-events: none;
         }
 
-        /* --- INTRO SCREEN (REQUIRED FOR MUSIC) --- */
+        /* --- 1. DASHBOARD / NAVBAR --- */
+        .dashboard {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 50px;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-family: 'Pacifico', cursive;
+            font-size: 1.8rem;
+            color: #ff4b4b;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff4b4b;
+        }
+
+        /* --- INTRO SCREEN --- */
         #intro-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 100;
+            background: rgba(0,0,0,0.9);
+            z-index: 200;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -68,7 +111,15 @@ html {
             100% { transform: scale(1); }
         }
 
-        /* --- MAIN CARD --- */
+        /* --- MAIN CONTENT AREA --- */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+            padding: 20px;
+        }
+
         .card {
             background: rgba(255, 255, 255, 0.95);
             padding: 40px;
@@ -76,15 +127,14 @@ html {
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             text-align: center;
             max-width: 500px;
-            width: 90%;
-            z-index: 10;
+            width: 100%;
             position: relative;
             display: none; /* Hidden initially */
             animation: popIn 1s ease-out;
         }
 
         @keyframes popIn {
-            0% { transform: scale(0.5); opacity: 0; }
+            0% { transform: scale(0.8); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
 
@@ -141,13 +191,13 @@ html {
         }
 
         .falling-heart {
-            position: absolute;
+            position: fixed;
             top: -20px;
             color: #ff4b4b;
             font-size: 20px;
             animation: fall linear infinite;
             z-index: 1;
-            opacity: 0.8;
+            pointer-events: none;
         }
 
         @keyframes fall {
@@ -155,7 +205,13 @@ html {
             100% { top: 110vh; transform: translateX(100px) rotate(360deg); opacity: 0; }
         }
 
-        @media (max-width: 600px) { h1 { font-size: 2.5rem; } }
+        /* Responsive */
+        @media (max-width: 600px) { 
+            h1 { font-size: 2.5rem; }
+            .dashboard { padding: 0 20px; }
+            .nav-links { display: none; } 
+            .logo { font-size: 1.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -166,46 +222,60 @@ html {
         <button class="enter-btn" onclick="enterSite()">Click to Open ❤️</button>
     </div>
 
-    <!-- 2. AUDIO PLAYER -->
+    <!-- 2. DASHBOARD (NAV) -->
+    <nav class="dashboard">
+        <div class="logo">Barsha's ❤️</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#message-section">Message</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- 3. AUDIO PLAYER -->
     <audio id="bgMusic" loop>
-        <!-- Replace src with your song link -->
+        <!-- Make sure you have a file named 'song.mp3' in your folder -->
         <source src="song.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- 3. MAIN CARD -->
-    <div class="card" id="mainCard">
-        <div class="heart-icon">❤</div>
-        <h1>I'm Sorry,<br>Barsha</h1>
-        <h2>I messed up.</h2>
-        <p>
-            Barsha, you mean the world to me. I hate seeing you upset, and I regret every word that hurt you. 
-            <br><br>
-            Please forgive me. I promise to be better. You are my heart.please bauwa ham aaha lagi kuch v kair sakai xi mgr aaha k kono kimat pa akela nae xoir sakai xi hmra malum hai aaha v bahute kanait hobai . hmra malum hai tayo ham aaha k yena kanait ta nae xoir sakab kahiyo nae. please let's start one more time with more effort and more love. I love you fulchaniya bauwa
-        </p>
-        
-        <button class="btn" id="forgiveBtn" onclick="handleForgive()">Forgive Me?</button>
-        
-        <div id="message">❤️ I love you, Barsha! ❤️</div>
-        
-        <div id="unblock-msg">
-            🥺<b>Please Unblock Me</b><br>
-            From WhatsApp, Instagram, and Calls.<br>
-            I promise I won't bother you again unless you want me to. ❤️
+    <!-- 4. MAIN CONTENT -->
+    <div class="container" id="home">
+        <div class="card" id="message-section">
+            <div class="heart-icon">❤</div>
+            <h1>I'm Sorry,<br>Barsha</h1>
+            <h2>I messed up.</h2>
+            <p>
+                Barsha, you mean the world to me. I hate seeing you upset, and I regret every word that hurt you. 
+                <br><br>
+                Please forgive me. I promise to be better. You are my heart. please bauwa ham aaha lagi kuch v kair sakai xi mgr aaha k kono kimat pa akela nae xoir sakai xi hmra malum hai aaha v bahute kanait hobai . hmra malum hai tayo ham aaha k yena kanait ta nae xoir sakab kahiyo nae. please let's start one more time with more effort and more love. I love you fulchaniya bauwa
+            </p>
+            
+            <button class="btn" id="forgiveBtn" onclick="handleForgive()">Forgive Me?</button>
+            
+            <div id="message">❤️ I love you, Barsha! ❤️</div>
+            
+            <div id="unblock-msg">
+                🥺<b>Please Unblock Me</b><br>
+                From WhatsApp, Instagram, and Calls.<br>
+                I promise I won't bother you again unless you want me to. ❤️
+            </div>
         </div>
     </div>
 
     <script>
         // --- CONFIGURATION ---
-        const TEMPLATE_ID = 'template_50ogjl3'; // Replace with your EmailJS Template ID
+        const TEMPLATE_ID = 'template_50ogjl3'; 
         const PUBLIC_KEY = 'ZTfpvB3QV9K4okyml'; 
 
         // Initialize EmailJS
-        (function() { emailjs.init(PUBLIC_KEY); })();
+        (function() { 
+            emailjs.init(PUBLIC_KEY); 
+        })();
 
         // --- 1. HANDLE MUSIC & ENTRY ---
         function enterSite() {
             const intro = document.getElementById('intro-screen');
-            const card = document.getElementById('mainCard');
+            const card = document.getElementById('message-section');
             const audio = document.getElementById('bgMusic');
 
             // Play Music
@@ -274,3 +344,4 @@ html {
     </script>
 </body>
 </html>
+```
